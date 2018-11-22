@@ -63,11 +63,15 @@ int main()
 		acceleration_x[index] += acceleration * delta_time;
 		acceleration_y[index] += acceleration * delta_time;
 		acceleration_z[index] += acceleration * delta_time;
-
+	}
+	for(auto index = 0; index < total_gameobjects; ++index)
+	{
 		velocity_x[index] += acceleration_x[index] * delta_time;
 		velocity_y[index] += acceleration_y[index] * delta_time;
 		velocity_z[index] += acceleration_z[index] * delta_time;
-
+	}
+	for(auto index = 0; index < total_gameobjects; ++index)
+	{
 		position_x[index] += velocity_x[index] * delta_time;
 		position_y[index] += velocity_y[index] * delta_time;
 		position_z[index] += velocity_z[index] * delta_time;
