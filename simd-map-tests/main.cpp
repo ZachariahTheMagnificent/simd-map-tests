@@ -53,17 +53,29 @@ int main()
 
 	for(auto& element : objects)
 	{
-		element.acceleration.x += acceleration * delta_time;
-		element.acceleration.y += acceleration * delta_time;
-		element.acceleration.z += acceleration * delta_time;
+		const auto acceleration_x = element.acceleration.x + acceleration * delta_time;
+		const auto acceleration_y = element.acceleration.y + acceleration * delta_time;
+		const auto acceleration_z = element.acceleration.z + acceleration * delta_time;
 
-		element.velocity.x += element.acceleration.x * delta_time;
-		element.velocity.y += element.acceleration.y * delta_time;
-		element.velocity.z += element.acceleration.z * delta_time;
+		const auto velocity_x = element.velocity.x + acceleration_x * delta_time;
+		const auto velocity_y = element.velocity.y + acceleration_y * delta_time;
+		const auto velocity_z = element.velocity.z + acceleration_z * delta_time;
 
-		element.position.x += element.velocity.x * delta_time;
-		element.position.y += element.velocity.y * delta_time;
-		element.position.z += element.velocity.z * delta_time;
+		const auto position_x = element.position.x + velocity_x * delta_time;
+		const auto position_y = element.position.y + velocity_y * delta_time;
+		const auto position_z = element.position.z + velocity_z * delta_time;
+
+		element.acceleration.x = acceleration_x;
+		element.acceleration.y = acceleration_y;
+		element.acceleration.z = acceleration_z;
+
+		element.acceleration.x = velocity_x;
+		element.acceleration.y = velocity_y;
+		element.acceleration.z = velocity_z;
+
+		element.acceleration.x = position_x;
+		element.acceleration.y = position_y;
+		element.acceleration.z = position_z;
 	}
 
 	const auto end_point = std::chrono::steady_clock::now();
