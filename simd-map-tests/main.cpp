@@ -17,29 +17,20 @@ int main()
 	auto eng = std::mt19937_64{524};
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
 
-	auto position_x = array<float>{};
-	auto position_y = array<float>{};
-	auto position_z = array<float>{};
+	auto components = array<float>{};
+	components.resize(total_gameobjects * 9);
 
-	auto velocity_x = array<float>{};
-	auto velocity_y = array<float>{};
-	auto velocity_z = array<float>{};
+	const auto position_x = components.begin() + total_gameobjects * 0;
+	const auto position_y = components.begin() + total_gameobjects * 1;
+	const auto position_z = components.begin() + total_gameobjects * 2;
 
-	auto acceleration_x = array<float>{};
-	auto acceleration_y = array<float>{};
-	auto acceleration_z = array<float>{};
+	const auto velocity_x = components.begin() + total_gameobjects * 3;
+	const auto velocity_y = components.begin() + total_gameobjects * 4;
+	const auto velocity_z = components.begin() + total_gameobjects * 5;
 
-	position_x.resize(total_gameobjects);
-	position_y.resize(total_gameobjects);
-	position_z.resize(total_gameobjects);
-
-	velocity_x.resize(total_gameobjects);
-	velocity_y.resize(total_gameobjects);
-	velocity_z.resize(total_gameobjects);
-
-	acceleration_x.resize(total_gameobjects);
-	acceleration_y.resize(total_gameobjects);
-	acceleration_z.resize(total_gameobjects);
+	const auto acceleration_x = components.begin() + total_gameobjects * 6;
+	const auto acceleration_y = components.begin() + total_gameobjects * 7;
+	const auto acceleration_z = components.begin() + total_gameobjects * 8;
 
 	for(auto index = 0; index < total_gameobjects; ++index)
 	{
