@@ -6,6 +6,20 @@
 template<typename type>
 using array = std::vector<type>;
 
+struct vector3
+{
+	float x;
+	float y;
+	float z;
+};
+
+struct object
+{
+	vector3 position;
+	vector3 velocity;
+	vector3 acceleration;
+};
+
 int main()
 {
 	using namespace std::chrono_literals;
@@ -17,7 +31,38 @@ int main()
 	auto eng = std::mt19937_64{524};
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
 
+	auto objects = array<object>{};
+	objects.resize(total_gameobjects);
+
+	for(auto& element : objects)
+	{
+		element.position.x = random_float(eng);
+		element.position.y = random_float(eng);
+		element.position.z = random_float(eng);
+		element.velocity.x = random_float(eng);
+		element.velocity.y = random_float(eng);
+		element.velocity.z = random_float(eng);
+		element.acceleration.x = random_float(eng);
+		element.acceleration.y = random_float(eng);
+		element.acceleration.z = random_float(eng);
+	}
+
 	const auto start_point = std::chrono::steady_clock::now();
+
+	for(auto& element : objects)
+	{
+		element.acceleration.x += acceleration * delta_time;
+		element.acceleration.y += acceleration * delta_time;
+		element.acceleration.z += acceleration * delta_time;
+
+		element.velocity.x += element.acceleration.x * delta_time;
+		element.velocity.y += element.acceleration.y * delta_time;
+		element.velocity.z += element.acceleration.z * delta_time;
+
+		element.position.x += element.velocity.x * delta_time;
+		element.position.y += element.velocity.y * delta_time;
+		element.position.z += element.velocity.z * delta_time;
+	}
 
 	const auto end_point = std::chrono::steady_clock::now();
 
