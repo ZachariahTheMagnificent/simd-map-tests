@@ -56,11 +56,15 @@ int main()
 		element.acceleration.x += acceleration * delta_time;
 		element.acceleration.y += acceleration * delta_time;
 		element.acceleration.z += acceleration * delta_time;
-
+	}
+	for(auto& element : objects)
+	{
 		element.velocity.x += element.acceleration.x * delta_time;
 		element.velocity.y += element.acceleration.y * delta_time;
 		element.velocity.z += element.acceleration.z * delta_time;
-
+	}
+	for(auto& element : objects)
+	{
 		element.position.x += element.velocity.x * delta_time;
 		element.position.y += element.velocity.y * delta_time;
 		element.position.z += element.velocity.z * delta_time;
