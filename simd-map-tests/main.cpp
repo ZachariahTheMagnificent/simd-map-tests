@@ -39,9 +39,11 @@ int main()
 		element.position.x = random_float(eng);
 		element.position.y = random_float(eng);
 		element.position.z = random_float(eng);
+
 		element.velocity.x = random_float(eng);
 		element.velocity.y = random_float(eng);
 		element.velocity.z = random_float(eng);
+
 		element.acceleration.x = random_float(eng);
 		element.acceleration.y = random_float(eng);
 		element.acceleration.z = random_float(eng);
