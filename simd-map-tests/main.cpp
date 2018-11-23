@@ -60,15 +60,15 @@ int main()
 
 	for(auto index = 0; index < total_vectors; ++index)
 	{
-		position_x[index] = _mm256_fmadd_ps(velocity_x[index], delta_time_vector, position_x[index]);
-		position_y[index] = _mm256_fmadd_ps(velocity_y[index], delta_time_vector, position_y[index]);
-		position_z[index] = _mm256_fmadd_ps(velocity_z[index], delta_time_vector, position_z[index]);
+		acceleration_x[index] = _mm256_fmadd_ps(acceleration_increase_x_vector, delta_time_vector, acceleration_x[index]);
+		acceleration_y[index] = _mm256_fmadd_ps(acceleration_increase_y_vector, delta_time_vector, acceleration_y[index]);
+		acceleration_z[index] = _mm256_fmadd_ps(acceleration_increase_z_vector, delta_time_vector, acceleration_z[index]);
 	}
 	for(auto index = 0; index < total_vectors; ++index)
 	{
 		velocity_x[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_x[index]);
-		velocity_y[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_y[index]);
-		velocity_z[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_z[index]);
+		velocity_y[index] = _mm256_fmadd_ps(acceleration_y[index], delta_time_vector, velocity_y[index]);
+		velocity_z[index] = _mm256_fmadd_ps(acceleration_z[index], delta_time_vector, velocity_z[index]);
 	}
 	for(auto index = 0; index < total_vectors; ++index)
 	{
