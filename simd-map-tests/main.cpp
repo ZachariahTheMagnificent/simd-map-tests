@@ -12,10 +12,14 @@ int main()
 
 	constexpr auto total_gameobjects = 8'000'000;
 	constexpr auto delta_time = 0.001f;
-	constexpr auto acceleration = 1.f;
 
 	auto eng = std::mt19937_64{524};
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
+	auto random_acceleration = std::uniform_real_distribution<float>{-1, 1};
+
+	const auto acceleration_x = random_acceleration(eng);
+	const auto acceleration_y = random_acceleration(eng);
+	const auto acceleration_z = random_acceleration(eng);
 
 	const auto start_point = std::chrono::steady_clock::now();
 
