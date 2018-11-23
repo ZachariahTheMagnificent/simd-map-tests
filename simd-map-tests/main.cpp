@@ -63,17 +63,29 @@ int main()
 		const auto position_y_vector = _mm256_load_ps(position_y + index);
 		const auto position_z_vector = _mm256_load_ps(position_z + index);
 
-		const auto new_acceleration_x_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x_vector);
-		const auto new_acceleration_y_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y_vector);
-		const auto new_acceleration_z_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_z_vector);
+		const auto acceleration_increase_x = _mm256_mul_ps(acceleration_vector, delta_time_vector);
+		const auto acceleration_increase_y = _mm256_mul_ps(acceleration_vector, delta_time_vector);
+		const auto acceleration_increase_z = _mm256_mul_ps(acceleration_vector, delta_time_vector);
 
-		const auto new_velocity_x_vector = _mm256_fmadd_ps(new_acceleration_x_vector, delta_time_vector, velocity_x_vector);
-		const auto new_velocity_y_vector = _mm256_fmadd_ps(new_acceleration_y_vector, delta_time_vector, velocity_y_vector);
-		const auto new_velocity_z_vector = _mm256_fmadd_ps(new_acceleration_z_vector, delta_time_vector, velocity_z_vector);
+		const auto new_acceleration_x_vector = _mm256_add_ps(acceleration_x_vector, acceleration_increase_x);
+		const auto new_acceleration_y_vector = _mm256_add_ps(acceleration_y_vector, acceleration_increase_y);
+		const auto new_acceleration_z_vector = _mm256_add_ps(acceleration_z_vector, acceleration_increase_z);
 
-		const auto new_position_x_vector = _mm256_fmadd_ps(new_velocity_x_vector, delta_time_vector, position_x_vector);
-		const auto new_position_y_vector = _mm256_fmadd_ps(new_velocity_y_vector, delta_time_vector, position_y_vector);
-		const auto new_position_z_vector = _mm256_fmadd_ps(new_velocity_z_vector, delta_time_vector, position_z_vector);
+		const auto velocity_increase_x = _mm256_mul_ps(new_acceleration_x_vector, delta_time_vector);
+		const auto velocity_increase_y = _mm256_mul_ps(new_acceleration_y_vector, delta_time_vector);
+		const auto velocity_increase_z = _mm256_mul_ps(new_acceleration_z_vector, delta_time_vector);
+
+		const auto new_velocity_x_vector = _mm256_add_ps(velocity_x_vector, velocity_increase_x);
+		const auto new_velocity_y_vector = _mm256_add_ps(velocity_y_vector, velocity_increase_y);
+		const auto new_velocity_z_vector = _mm256_add_ps(velocity_z_vector, velocity_increase_z);
+
+		const auto position_increase_x = _mm256_mul_ps(new_velocity_x_vector, delta_time_vector);
+		const auto position_increase_y = _mm256_mul_ps(new_velocity_y_vector, delta_time_vector);
+		const auto position_increase_z = _mm256_mul_ps(new_velocity_z_vector, delta_time_vector);
+
+		const auto new_position_x_vector = _mm256_add_ps(position_x_vector, position_increase_x);
+		const auto new_position_y_vector = _mm256_add_ps(position_y_vector, position_increase_y);
+		const auto new_position_z_vector = _mm256_add_ps(position_z_vector, position_increase_z);
 
 		_mm256_store_ps(acceleration_x + index, new_acceleration_x_vector);
 		_mm256_store_ps(acceleration_y + index, new_acceleration_y_vector);
