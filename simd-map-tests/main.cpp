@@ -12,10 +12,14 @@ int main()
 
 	constexpr auto total_gameobjects = 8'000'000;
 	constexpr auto delta_time = 0.001f;
-	constexpr auto acceleration = 1.f;
 
 	auto eng = std::mt19937_64{524};
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
+	auto random_acceleration = std::uniform_real_distribution<float>{-1, 1};
+
+	const auto acceleration_increase_x = random_acceleration(eng);
+	const auto acceleration_increase_y = random_acceleration(eng);
+	const auto acceleration_increase_z = random_acceleration(eng);
 
 	auto components = array<float>{};
 	components.resize(total_gameobjects * 9);
@@ -51,15 +55,15 @@ int main()
 
 	for(auto index = 0; index < total_gameobjects; ++index)
 	{
-		acceleration_x[index] += acceleration * delta_time;
+		acceleration_x[index] += acceleration_increase_x * delta_time;
 	}
 	for(auto index = 0; index < total_gameobjects; ++index)
 	{
-		acceleration_y[index] += acceleration * delta_time;
+		acceleration_y[index] += acceleration_increase_y * delta_time;
 	}
 	for(auto index = 0; index < total_gameobjects; ++index)
 	{
-		acceleration_z[index] += acceleration * delta_time;
+		acceleration_z[index] += acceleration_increase_z * delta_time;
 	}
 	for(auto index = 0; index < total_gameobjects; ++index)
 	{
