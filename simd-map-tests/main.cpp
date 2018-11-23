@@ -72,9 +72,9 @@ int main()
 		const auto position_y_vector = position_y[index];
 		const auto position_z_vector = position_z[index];
 
-		const auto new_acceleration_x = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x[index]);
-		const auto new_acceleration_y = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y[index]);
-		const auto new_acceleration_z = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_z[index]);
+		const auto new_acceleration_x = _mm256_fmadd_ps(acceleration_increase_x_vector, delta_time_vector, acceleration_x[index]);
+		const auto new_acceleration_y = _mm256_fmadd_ps(acceleration_increase_y_vector, delta_time_vector, acceleration_y[index]);
+		const auto new_acceleration_z = _mm256_fmadd_ps(acceleration_increase_z_vector, delta_time_vector, acceleration_z[index]);
 
 		const auto new_velocity_x = _mm256_fmadd_ps(new_acceleration_x, delta_time_vector, velocity_x[index]);
 		const auto new_velocity_y = _mm256_fmadd_ps(new_acceleration_y, delta_time_vector, velocity_y[index]);
