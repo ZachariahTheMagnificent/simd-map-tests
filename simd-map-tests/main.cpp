@@ -49,6 +49,7 @@ struct object
 	vector3 acceleration;
 	vector3 velocity;
 	vector3 position;
+	simd_vector team_id;
 };
 
 int main()
@@ -85,6 +86,8 @@ int main()
 			element.position.x[index] = random_float(eng);
 			element.position.y[index] = random_float(eng);
 			element.position.z[index] = random_float(eng);
+
+			element.team_id[index] = random_float(eng);
 		}
 	}
 
