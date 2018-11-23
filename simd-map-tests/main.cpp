@@ -16,10 +16,14 @@ int main()
 	constexpr auto float_vector_size = sizeof(simd_vector) / sizeof(float);
 	constexpr auto total_vectors = total_gameobjects / float_vector_size;
 	constexpr auto delta_time = 0.001f;
-	constexpr auto acceleration = 1.f;
 
 	auto eng = std::mt19937_64{524};
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
+	auto random_acceleration = std::uniform_real_distribution<float>{-1, 1};
+
+	const auto acceleration_increase_x = random_acceleration(eng);
+	const auto acceleration_increase_y = random_acceleration(eng);
+	const auto acceleration_increase_z = random_acceleration(eng);
 
 	float* acceleration_x = static_cast<float*>(_aligned_malloc(total_gameobjects * sizeof(float), sizeof(simd_vector)));
 	float* acceleration_y = static_cast<float*>(_aligned_malloc(total_gameobjects * sizeof(float), sizeof(simd_vector)));
@@ -46,7 +50,9 @@ int main()
 		position_z[index] = random_float(eng);
 	}
 
-	const auto acceleration_vector = _mm256_set1_ps(acceleration);
+	const auto acceleration_increase_x_vector = _mm256_set1_ps(acceleration_increase_x);
+	const auto acceleration_increase_y_vector = _mm256_set1_ps(acceleration_increase_y);
+	const auto acceleration_increase_z_vector = _mm256_set1_ps(acceleration_increase_z);
 	const auto delta_time_vector = _mm256_set1_ps(delta_time);
 
 	const auto start_point = std::chrono::steady_clock::now();
