@@ -60,9 +60,9 @@ int main()
 
 	for(auto index = 0; index < total_vectors; ++index)
 	{
-		acceleration_x[index] = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x[index]);
-		acceleration_y[index] = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y[index]);
-		acceleration_z[index] = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_z[index]);
+		acceleration_x[index] = _mm256_fmadd_ps(acceleration_increase_x_vector, delta_time_vector, acceleration_x[index]);
+		acceleration_y[index] = _mm256_fmadd_ps(acceleration_increase_y_vector, delta_time_vector, acceleration_y[index]);
+		acceleration_z[index] = _mm256_fmadd_ps(acceleration_increase_z_vector, delta_time_vector, acceleration_z[index]);
 
 		velocity_x[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_x[index]);
 		velocity_y[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_y[index]);
