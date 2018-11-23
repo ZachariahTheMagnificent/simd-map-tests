@@ -69,9 +69,9 @@ int main()
 		const auto position_y_vector = reinterpret_cast<__m256*>(position_y)[index];
 		const auto position_z_vector = reinterpret_cast<__m256*>(position_z)[index];
 
-		const auto new_acceleration_x_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x_vector);
-		const auto new_acceleration_y_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y_vector);
-		const auto new_acceleration_z_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_z_vector);
+		const auto new_acceleration_x_vector = _mm256_fmadd_ps(acceleration_increase_vector_x, delta_time_vector, acceleration_x_vector);
+		const auto new_acceleration_y_vector = _mm256_fmadd_ps(acceleration_increase_vector_y, delta_time_vector, acceleration_y_vector);
+		const auto new_acceleration_z_vector = _mm256_fmadd_ps(acceleration_increase_vector_z, delta_time_vector, acceleration_z_vector);
 
 		const auto new_velocity_x_vector = _mm256_fmadd_ps(new_acceleration_x_vector, delta_time_vector, velocity_x_vector);
 		const auto new_velocity_y_vector = _mm256_fmadd_ps(new_acceleration_y_vector, delta_time_vector, velocity_y_vector);
