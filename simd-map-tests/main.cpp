@@ -51,17 +51,17 @@ int main()
 
 	const auto start_point = std::chrono::steady_clock::now();
 
-	for(auto index = 0; index < total_gameobjects; index += float_vector_size)
+	for(auto index = 0; index < total_vectors; ++index)
 	{
-		const auto acceleration_x_vector = *reinterpret_cast<__m256*>(acceleration_x + index);
-		const auto acceleration_y_vector = *reinterpret_cast<__m256*>(acceleration_y + index);
-		const auto acceleration_z_vector = *reinterpret_cast<__m256*>(acceleration_z + index);
-		const auto velocity_x_vector = *reinterpret_cast<__m256*>(velocity_x + index);
-		const auto velocity_y_vector = *reinterpret_cast<__m256*>(velocity_y + index);
-		const auto velocity_z_vector = *reinterpret_cast<__m256*>(velocity_z + index);
-		const auto position_x_vector = *reinterpret_cast<__m256*>(position_x + index);
-		const auto position_y_vector = *reinterpret_cast<__m256*>(position_y + index);
-		const auto position_z_vector = *reinterpret_cast<__m256*>(position_z + index);
+		const auto acceleration_x_vector = reinterpret_cast<__m256*>(acceleration_x)[index];
+		const auto acceleration_y_vector = reinterpret_cast<__m256*>(acceleration_y)[index];
+		const auto acceleration_z_vector = reinterpret_cast<__m256*>(acceleration_z)[index];
+		const auto velocity_x_vector = reinterpret_cast<__m256*>(velocity_x)[index];
+		const auto velocity_y_vector = reinterpret_cast<__m256*>(velocity_y)[index];
+		const auto velocity_z_vector = reinterpret_cast<__m256*>(velocity_z)[index];
+		const auto position_x_vector = reinterpret_cast<__m256*>(position_x)[index];
+		const auto position_y_vector = reinterpret_cast<__m256*>(position_y)[index];
+		const auto position_z_vector = reinterpret_cast<__m256*>(position_z)[index];
 
 		const auto new_acceleration_x_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x_vector);
 		const auto new_acceleration_y_vector = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y_vector);
@@ -75,15 +75,15 @@ int main()
 		const auto new_position_y_vector = _mm256_fmadd_ps(new_velocity_y_vector, delta_time_vector, position_y_vector);
 		const auto new_position_z_vector = _mm256_fmadd_ps(new_velocity_z_vector, delta_time_vector, position_z_vector);
 
-		_mm256_store_ps(acceleration_x + index, new_acceleration_x_vector);
-		_mm256_store_ps(acceleration_y + index, new_acceleration_y_vector);
-		_mm256_store_ps(acceleration_z + index, new_acceleration_z_vector);
-		_mm256_store_ps(velocity_x + index, new_velocity_x_vector);
-		_mm256_store_ps(velocity_y + index, new_velocity_y_vector);
-		_mm256_store_ps(velocity_z + index, new_velocity_z_vector);
-		_mm256_store_ps(position_x + index, new_position_x_vector);
-		_mm256_store_ps(position_y + index, new_position_y_vector);
-		_mm256_store_ps(position_z + index, new_position_z_vector);
+		_mm256_store_ps(acceleration_x + index * float_vector_size, new_acceleration_x_vector);
+		_mm256_store_ps(acceleration_y + index * float_vector_size, new_acceleration_y_vector);
+		_mm256_store_ps(acceleration_z + index * float_vector_size, new_acceleration_z_vector);
+		_mm256_store_ps(velocity_x + index * float_vector_size, new_velocity_x_vector);
+		_mm256_store_ps(velocity_y + index * float_vector_size, new_velocity_y_vector);
+		_mm256_store_ps(velocity_z + index * float_vector_size, new_velocity_z_vector);
+		_mm256_store_ps(position_x + index * float_vector_size, new_position_x_vector);
+		_mm256_store_ps(position_y + index * float_vector_size, new_position_y_vector);
+		_mm256_store_ps(position_z + index * float_vector_size, new_position_z_vector);
 	}
 
 	const auto end_point = std::chrono::steady_clock::now();
