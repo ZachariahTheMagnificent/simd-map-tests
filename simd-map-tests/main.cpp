@@ -69,9 +69,9 @@ int main()
 		const auto position_y_vector = _mm256_load_ps(position_y + index);
 		const auto position_z_vector = _mm256_load_ps(position_z + index);
 
-		const auto acceleration_increase_x = _mm256_mul_ps(acceleration_vector, delta_time_vector);
-		const auto acceleration_increase_y = _mm256_mul_ps(acceleration_vector, delta_time_vector);
-		const auto acceleration_increase_z = _mm256_mul_ps(acceleration_vector, delta_time_vector);
+		const auto acceleration_increase_x = _mm256_mul_ps(acceleration_increase_vector_x, delta_time_vector);
+		const auto acceleration_increase_y = _mm256_mul_ps(acceleration_increase_vector_y, delta_time_vector);
+		const auto acceleration_increase_z = _mm256_mul_ps(acceleration_increase_vector_z, delta_time_vector);
 
 		const auto new_acceleration_x_vector = _mm256_add_ps(acceleration_x_vector, acceleration_increase_x);
 		const auto new_acceleration_y_vector = _mm256_add_ps(acceleration_y_vector, acceleration_increase_y);
