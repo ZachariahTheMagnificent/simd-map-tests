@@ -88,6 +88,11 @@ int main()
 		}
 	}
 
+	const auto acceleration_increase_vector_x = _mm256_set1_ps(acceleration_increase_x);
+	const auto acceleration_increase_vector_y = _mm256_set1_ps(acceleration_increase_y);
+	const auto acceleration_increase_vector_z = _mm256_set1_ps(acceleration_increase_z);
+	const auto delta_time_vector = _mm256_set1_ps(delta_time);
+
 	const auto start_point = std::chrono::steady_clock::now();
 
 	for(auto& element : objects)
@@ -104,7 +109,27 @@ int main()
 		const auto position_vector_y = _mm256_load_ps(element.position.y);
 		const auto position_vector_z = _mm256_load_ps(element.position.z);
 
+		const auto new_acceleration_x_vector = _mm256_fmadd_ps(acceleration_increase_vector_x, delta_time_vector, acceleration_vector_x);
+		const auto new_acceleration_y_vector = _mm256_fmadd_ps(acceleration_increase_vector_y, delta_time_vector, acceleration_vector_y);
+		const auto new_acceleration_z_vector = _mm256_fmadd_ps(acceleration_increase_vector_z, delta_time_vector, acceleration_vector_z);
 
+		const auto new_velocity_x_vector = _mm256_fmadd_ps(new_acceleration_x_vector, delta_time_vector, velocity_vector_x);
+		const auto new_velocity_y_vector = _mm256_fmadd_ps(new_acceleration_y_vector, delta_time_vector, velocity_vector_y);
+		const auto new_velocity_z_vector = _mm256_fmadd_ps(new_acceleration_z_vector, delta_time_vector, velocity_vector_z);
+
+		const auto new_position_x_vector = _mm256_fmadd_ps(new_velocity_x_vector, delta_time_vector, position_vector_x);
+		const auto new_position_y_vector = _mm256_fmadd_ps(new_velocity_y_vector, delta_time_vector, position_vector_y);
+		const auto new_position_z_vector = _mm256_fmadd_ps(new_velocity_z_vector, delta_time_vector, position_vector_z);
+
+		_mm256_store_ps(element.acceleration.x, new_acceleration_x_vector);
+		_mm256_store_ps(element.acceleration.y, new_acceleration_y_vector);
+		_mm256_store_ps(element.acceleration.z, new_acceleration_z_vector);
+		_mm256_store_ps(element.velocity.x, new_velocity_x_vector);
+		_mm256_store_ps(element.velocity.y, new_velocity_y_vector);
+		_mm256_store_ps(element.velocity.z, new_velocity_z_vector);
+		_mm256_store_ps(element.position.x, new_position_x_vector);
+		_mm256_store_ps(element.position.y, new_position_y_vector);
+		_mm256_store_ps(element.position.z, new_position_z_vector);
 	}
 
 	const auto end_point = std::chrono::steady_clock::now();
