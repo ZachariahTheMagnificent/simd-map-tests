@@ -17,9 +17,9 @@ int main()
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
 	auto random_acceleration = std::uniform_real_distribution<float>{-1, 1};
 
-	const auto acceleration_x = random_acceleration(eng);
-	const auto acceleration_y = random_acceleration(eng);
-	const auto acceleration_z = random_acceleration(eng);
+	const auto acceleration_increase_x = random_acceleration(eng);
+	const auto acceleration_increase_y = random_acceleration(eng);
+	const auto acceleration_increase_z = random_acceleration(eng);
 
 	const auto start_point = std::chrono::steady_clock::now();
 
