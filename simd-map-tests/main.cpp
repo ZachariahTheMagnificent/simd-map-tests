@@ -75,15 +75,15 @@ int main()
 		const auto new_position_y_vector = _mm256_fmadd_ps(new_velocity_y_vector, delta_time_vector, position_y_vector);
 		const auto new_position_z_vector = _mm256_fmadd_ps(new_velocity_z_vector, delta_time_vector, position_z_vector);
 
-		_mm256_store_ps(acceleration_x + index, new_acceleration_x_vector);
-		_mm256_store_ps(acceleration_y + index, new_acceleration_y_vector);
-		_mm256_store_ps(acceleration_z + index, new_acceleration_z_vector);
-		_mm256_store_ps(velocity_x + index, new_velocity_x_vector);
-		_mm256_store_ps(velocity_y + index, new_velocity_y_vector);
-		_mm256_store_ps(velocity_z + index, new_velocity_z_vector);
-		_mm256_store_ps(position_x + index, new_position_x_vector);
-		_mm256_store_ps(position_y + index, new_position_y_vector);
-		_mm256_store_ps(position_z + index, new_position_z_vector);
+		_mm256_stream_ps(acceleration_x + index, new_acceleration_x_vector);
+		_mm256_stream_ps(acceleration_y + index, new_acceleration_y_vector);
+		_mm256_stream_ps(acceleration_z + index, new_acceleration_z_vector);
+		_mm256_stream_ps(velocity_x + index, new_velocity_x_vector);
+		_mm256_stream_ps(velocity_y + index, new_velocity_y_vector);
+		_mm256_stream_ps(velocity_z + index, new_velocity_z_vector);
+		_mm256_stream_ps(position_x + index, new_position_x_vector);
+		_mm256_stream_ps(position_y + index, new_position_y_vector);
+		_mm256_stream_ps(position_z + index, new_position_z_vector);
 	}
 
 	const auto end_point = std::chrono::steady_clock::now();
