@@ -26,10 +26,14 @@ int main()
 
 	constexpr auto total_gameobjects = 8'000'000;
 	constexpr auto delta_time = 0.001f;
-	constexpr auto acceleration = 1.f;
 
 	auto eng = std::mt19937_64{524};
 	auto random_float = std::uniform_real_distribution<float>{-15, 15};
+	auto random_acceleration = std::uniform_real_distribution<float>{-1, 1};
+
+	const auto acceleration_increase_x = random_acceleration(eng);
+	const auto acceleration_increase_y = random_acceleration(eng);
+	const auto acceleration_increase_z = random_acceleration(eng);
 
 	auto objects = array<object>{};
 	objects.resize(total_gameobjects);
@@ -53,9 +57,9 @@ int main()
 
 	for(auto& element : objects)
 	{
-		element.acceleration.x += acceleration * delta_time;
-		element.acceleration.y += acceleration * delta_time;
-		element.acceleration.z += acceleration * delta_time;
+		element.acceleration.x += acceleration_increase_x * delta_time;
+		element.acceleration.y += acceleration_increase_y * delta_time;
+		element.acceleration.z += acceleration_increase_z * delta_time;
 	}
 	for(auto& element : objects)
 	{
