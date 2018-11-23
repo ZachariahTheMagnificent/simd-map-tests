@@ -54,17 +54,29 @@ int main()
 
 	for(auto index = 0; index < total_vectors; ++index)
 	{
-		acceleration_x[index] = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x[index]);
-		acceleration_y[index] = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y[index]);
-		acceleration_z[index] = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_z[index]);
+		const auto new_acceleration_x = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_x[index]);
+		const auto new_acceleration_y = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_y[index]);
+		const auto new_acceleration_z = _mm256_fmadd_ps(acceleration_vector, delta_time_vector, acceleration_z[index]);
 
-		velocity_x[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_x[index]);
-		velocity_y[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_y[index]);
-		velocity_z[index] = _mm256_fmadd_ps(acceleration_x[index], delta_time_vector, velocity_z[index]);
+		const auto new_velocity_x = _mm256_fmadd_ps(new_acceleration_x, delta_time_vector, velocity_x[index]);
+		const auto new_velocity_y = _mm256_fmadd_ps(new_acceleration_y, delta_time_vector, velocity_y[index]);
+		const auto new_velocity_z = _mm256_fmadd_ps(new_acceleration_z, delta_time_vector, velocity_z[index]);
 
-		position_x[index] = _mm256_fmadd_ps(velocity_x[index], delta_time_vector, position_x[index]);
-		position_y[index] = _mm256_fmadd_ps(velocity_y[index], delta_time_vector, position_y[index]);
-		position_z[index] = _mm256_fmadd_ps(velocity_z[index], delta_time_vector, position_z[index]);
+		const auto new_position_x = _mm256_fmadd_ps(new_velocity_x, delta_time_vector, position_x[index]);
+		const auto new_position_y = _mm256_fmadd_ps(new_velocity_y, delta_time_vector, position_y[index]);
+		const auto new_position_z = _mm256_fmadd_ps(new_velocity_z, delta_time_vector, position_z[index]);
+
+		acceleration_x[index] = new_acceleration_x;
+		acceleration_y[index] = new_acceleration_y;
+		acceleration_z[index] = new_acceleration_z;
+
+		velocity_x[index] = new_velocity_x;
+		velocity_y[index] = new_velocity_y;
+		velocity_z[index] = new_velocity_z;
+
+		position_x[index] = new_position_x;
+		position_y[index] = new_position_y;
+		position_z[index] = new_position_z;
 	}
 
 	const auto end_point = std::chrono::steady_clock::now();
